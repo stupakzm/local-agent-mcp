@@ -44,7 +44,10 @@
 4. Triggering a deliberate handler error returns `{ isError: true }` — Claude Code receives an inspectable error, not a protocol crash
 5. No writes to stdout during normal operation or on error — all output goes to stderr
 
-**Plans:** TBD
+**Plans:** 1 plan
+
+Plans:
+- [ ] 01-01-PLAN.md — Scaffold project and implement MCP server with stub run_local_agent tool
 
 **Research Notes:**
 
@@ -91,7 +94,10 @@ No pre-phase research needed. MCP SDK patterns are HIGH confidence and well-docu
 6. Environment variables like `ANTHROPIC_API_KEY` are not available to subprocess commands even when set in the parent process
 7. A deliberate infinite tool loop is stopped at max iterations with a clear "max iterations reached" message
 
-**Plans:** TBD
+**Plans:** 1 plan
+
+Plans:
+- [ ] 01-01-PLAN.md — Scaffold project and implement MCP server with stub run_local_agent tool
 
 **Research Notes:**
 
@@ -139,7 +145,10 @@ No pre-phase research needed. Ollama `/api/chat` API format is HIGH confidence.
 4. A `ParseFailure` result surfaces a readable error to Claude Code — not a protocol error and not silence
 5. A response where `message.tool_calls` is present but `message.content` is also non-empty is handled correctly — tool_calls path is used, content is ignored (not processed in parallel)
 
-**Plans:** TBD
+**Plans:** 1 plan
+
+Plans:
+- [ ] 01-01-PLAN.md — Scaffold project and implement MCP server with stub run_local_agent tool
 
 **Research Notes:**
 
@@ -193,7 +202,10 @@ Context window note: If a long tool chain fills the model's `num_ctx`, the messa
 4. Setting `AGENT_ALLOWED_COMMANDS=rm,curl` adds those commands to the allow-list and the agent can execute them
 5. The README's Claude Code registration section can be followed literally — the config snippet works without modification on Mac and Linux
 
-**Plans:** TBD
+**Plans:** 1 plan
+
+Plans:
+- [ ] 01-01-PLAN.md — Scaffold project and implement MCP server with stub run_local_agent tool
 
 **Research Notes:**
 
