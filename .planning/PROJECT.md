@@ -12,18 +12,19 @@ Claude Code delegates tasks to a local Ollama model that actually executes them 
 
 ### Validated
 
-(None yet — ship to validate)
+- [x] MCP server exposes `run_local_agent(prompt, model)` tool to Claude Code — *Validated in Phase 1: MCP Server Shell*
+- [x] Easy Claude Code MCP registration (`.mcp.json` zero-config) — *Validated in Phase 1: MCP Server Shell*
 
 ### Active
 
-- [ ] MCP server exposes `run_local_agent(prompt, model)` tool to Claude Code
+- [ ] Ollama tool loop: call API → parse tool calls → execute → feed back → repeat until done
 - [ ] Ollama tool loop: call API → parse tool calls → execute → feed back → repeat until done
 - [ ] Local tools implemented: read_file, write_file, bash, list_dir
 - [ ] Robust tool call parsing: best-effort JSON extraction with multiple fallback strategies
 - [ ] Retry logic on malformed model output
 - [ ] Safety layer: path restrictions, bash command allow-list, configurable sandboxing
 - [ ] Works daily-use ready with qwen2.5-coder, llama3.1, and mistral
-- [ ] Easy Claude Code MCP registration (clear config snippet in README)
+- [ ] Clear README installation guide
 - [ ] Open-source quality: README, setup UX, installation guide
 
 ### Out of Scope
@@ -32,6 +33,10 @@ Claude Code delegates tasks to a local Ollama model that actually executes them 
 - Supporting non-Ollama backends (OpenAI, Anthropic) — Ollama-first, v2+ concern
 - Bundling into GSD — standalone first, GSD wiring is a separate integration step
 - Fine-tuning or training local models — runtime tool use only
+
+## Current State
+
+Phase 1 complete — MCP server shell proven. Transport layer validates end-to-end: `npm run build` compiles, server starts on stdio, `run_local_agent` stub returns correct response, `.mcp.json` registered. Phase 2 (agent loop) is next.
 
 ## Context
 
@@ -75,4 +80,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-20 after initialization*
+*Last updated: 2026-03-21 after Phase 1 completion*
