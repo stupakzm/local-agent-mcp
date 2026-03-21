@@ -9,7 +9,7 @@
 
 ## Phases
 
-- [ ] **Phase 1: MCP Server Shell** - Working MCP server registered with Claude Code, stub tool proves the transport layer
+- [x] **Phase 1: MCP Server Shell** - Working MCP server registered with Claude Code, stub tool proves the transport layer
 - [ ] **Phase 2: Agent Loop + Tools + Safety** - Full agentic tool loop executing real file and shell operations safely
 - [ ] **Phase 3: Robust Parsing Pipeline** - Fault-tolerant parser handles all documented model output failure modes
 - [ ] **Phase 4: Configuration + Polish** - Env-var config, README, and distribution artifacts make the tool usable by others
@@ -94,10 +94,12 @@ No pre-phase research needed. MCP SDK patterns are HIGH confidence and well-docu
 6. Environment variables like `ANTHROPIC_API_KEY` are not available to subprocess commands even when set in the parent process
 7. A deliberate infinite tool loop is stopped at max iterations with a clear "max iterations reached" message
 
-**Plans:** 1 plan
+**Plans:** 3 plans
 
 Plans:
-- [x] 01-01-PLAN.md — Scaffold project and implement MCP server with stub run_local_agent tool
+- [ ] 02-01-PLAN.md — Security module with path validation, command allow-list, safe env, and output truncation
+- [ ] 02-02-PLAN.md — Ollama HTTP client, tool executors, and tool tests
+- [ ] 02-03-PLAN.md — Agent loop and MCP handler wiring
 
 **Research Notes:**
 
@@ -219,8 +221,8 @@ No pre-phase research needed. Env-var config is a standard pattern with no uncer
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. MCP Server Shell | 0/? | Not started | - |
-| 2. Agent Loop + Tools + Safety | 0/? | Not started | - |
+| 1. MCP Server Shell | 1/1 | Done | 2026-03-21 |
+| 2. Agent Loop + Tools + Safety | 0/3 | Planned | - |
 | 3. Robust Parsing Pipeline | 0/? | Not started | - |
 | 4. Configuration + Polish | 0/? | Not started | - |
 
@@ -230,10 +232,10 @@ No pre-phase research needed. Env-var config is a standard pattern with no uncer
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| MCP-01 | Phase 1 | Pending |
-| MCP-02 | Phase 1 | Pending |
-| MCP-03 | Phase 1 | Pending |
-| MCP-04 | Phase 1 | Pending |
+| MCP-01 | Phase 1 | Complete |
+| MCP-02 | Phase 1 | Complete |
+| MCP-03 | Phase 1 | Complete |
+| MCP-04 | Phase 1 | Complete |
 | LOOP-01 | Phase 2 | Pending |
 | LOOP-02 | Phase 2 | Pending |
 | LOOP-03 | Phase 2 | Pending |
@@ -274,4 +276,4 @@ No pre-phase research needed. Env-var config is a standard pattern with no uncer
 ---
 
 *Roadmap created: 2026-03-20*
-*Last updated: 2026-03-20 after initial creation*
+*Last updated: 2026-03-21 after Phase 2 planning*
