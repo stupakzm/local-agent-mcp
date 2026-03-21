@@ -10,7 +10,7 @@
 ## Phases
 
 - [x] **Phase 1: MCP Server Shell** - Working MCP server registered with Claude Code, stub tool proves the transport layer
-- [ ] **Phase 2: Agent Loop + Tools + Safety** - Full agentic tool loop executing real file and shell operations safely
+- [x] **Phase 2: Agent Loop + Tools + Safety** - Full agentic tool loop executing real file and shell operations safely (completed 2026-03-21)
 - [ ] **Phase 3: Robust Parsing Pipeline** - Fault-tolerant parser handles all documented model output failure modes
 - [ ] **Phase 4: Configuration + Polish** - Env-var config, README, and distribution artifacts make the tool usable by others
 
@@ -94,7 +94,7 @@ No pre-phase research needed. MCP SDK patterns are HIGH confidence and well-docu
 6. Environment variables like `ANTHROPIC_API_KEY` are not available to subprocess commands even when set in the parent process
 7. A deliberate infinite tool loop is stopped at max iterations with a clear "max iterations reached" message
 
-**Plans:** 2/3 plans executed
+**Plans:** 4/4 plans complete
 
 Plans:
 - [x] 02-01-PLAN.md — Security module with path validation, command allow-list, safe env, and output truncation
@@ -222,7 +222,7 @@ No pre-phase research needed. Env-var config is a standard pattern with no uncer
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. MCP Server Shell | 1/1 | Done | 2026-03-21 |
-| 2. Agent Loop + Tools + Safety | 2/3 | In Progress|  |
+| 2. Agent Loop + Tools + Safety | 4/4 | Complete   | 2026-03-21 |
 | 3. Robust Parsing Pipeline | 0/? | Not started | - |
 | 4. Configuration + Polish | 0/? | Not started | - |
 
