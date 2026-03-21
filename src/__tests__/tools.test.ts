@@ -110,6 +110,40 @@ describe("bash", () => {
     expect(result.success).toBe(true);
     expect(result.output).toContain("shell mode: full");
   });
+
+  it.skipIf(process.platform === "win32")("kills grandchild processes on timeout", async () => {
+    // Spawn a bash command that forks a grandchild sleep process
+    // The outer bash prints the grandchild PID then waits
+    const result = await executeTool(
+      "bash",
+      { command: 'bash -c "sleep 60 & echo \\$!; wait"' },
+      tempDir,
+      "full",
+      allowedCommands,
+      500, // 500ms timeout — grandchild won't finish in time
+    );
+
+    expect(result.success).toBe(false);
+    expect(result.output).toContain("timed out");
+
+    // Extract the grandchild PID from stdout (printed before timeout killed the group)
+    const pidMatch = result.output.match(/^(\d+)$/m);
+    if (pidMatch) {
+      const grandchildPid = parseInt(pidMatch[1], 10);
+      // Give OS a moment to clean up
+      await new Promise((r) => setTimeout(r, 200));
+      // Verify grandchild is dead
+      let alive = false;
+      try {
+        process.kill(grandchildPid, 0); // signal 0 = existence check
+        alive = true;
+      } catch {
+        // ESRCH = process doesn't exist = success
+        alive = false;
+      }
+      expect(alive).toBe(false);
+    }
+  });
 });
 
 describe("unknown tool", () => {
