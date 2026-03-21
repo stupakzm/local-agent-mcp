@@ -47,7 +47,7 @@
 **Plans:** 1 plan
 
 Plans:
-- [ ] 01-01-PLAN.md — Scaffold project and implement MCP server with stub run_local_agent tool
+- [x] 01-01-PLAN.md — Scaffold project and implement MCP server with stub run_local_agent tool
 
 **Research Notes:**
 

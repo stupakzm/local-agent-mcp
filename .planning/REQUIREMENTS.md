@@ -9,10 +9,10 @@
 
 ### MCP Server
 
-- [ ] **MCP-01**: MCP server exposes a `run_local_agent(prompt, model?)` tool via stdio transport
-- [ ] **MCP-02**: Server builds and registers cleanly via `.mcp.json` project file (zero-config install for users who clone the repo)
-- [ ] **MCP-03**: All handler errors returned as `{ isError: true }` — no unhandled exceptions reach the MCP protocol layer
-- [ ] **MCP-04**: No writes to stdout (all logging goes to stderr only)
+- [x] **MCP-01**: MCP server exposes a `run_local_agent(prompt, model?)` tool via stdio transport
+- [x] **MCP-02**: Server builds and registers cleanly via `.mcp.json` project file (zero-config install for users who clone the repo)
+- [x] **MCP-03**: All handler errors returned as `{ isError: true }` — no unhandled exceptions reach the MCP protocol layer
+- [x] **MCP-04**: No writes to stdout (all logging goes to stderr only)
 
 ### Ollama Agent Loop
 
@@ -108,10 +108,10 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| MCP-01 | Phase 1 | Pending |
-| MCP-02 | Phase 1 | Pending |
-| MCP-03 | Phase 1 | Pending |
-| MCP-04 | Phase 1 | Pending |
+| MCP-01 | Phase 1 | Complete |
+| MCP-02 | Phase 1 | Complete |
+| MCP-03 | Phase 1 | Complete |
+| MCP-04 | Phase 1 | Complete |
 | LOOP-01 | Phase 2 | Pending |
 | LOOP-02 | Phase 2 | Pending |
 | LOOP-03 | Phase 2 | Pending |
