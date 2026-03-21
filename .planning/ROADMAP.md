@@ -99,7 +99,7 @@ No pre-phase research needed. MCP SDK patterns are HIGH confidence and well-docu
 Plans:
 - [x] 02-01-PLAN.md — Security module with path validation, command allow-list, safe env, and output truncation
 - [x] 02-02-PLAN.md — Ollama HTTP client, tool executors, and tool tests
-- [ ] 02-03-PLAN.md — Agent loop and MCP handler wiring
+- [x] 02-03-PLAN.md — Agent loop and MCP handler wiring
 
 **Research Notes:**
 

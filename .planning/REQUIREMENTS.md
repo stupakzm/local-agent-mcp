@@ -17,10 +17,10 @@
 ### Ollama Agent Loop
 
 - [x] **LOOP-01**: Agent loop posts to Ollama `/api/chat` with `stream: false`, tool definitions, and full message history
-- [ ] **LOOP-02**: Loop continues until model produces a final text response (no tool calls) or max iterations reached
-- [ ] **LOOP-03**: Each tool call result is returned to the model as a `role: "tool"` message (even on error)
-- [ ] **LOOP-04**: Assistant message is appended to history before tool results on each iteration
-- [ ] **LOOP-05**: Max iterations enforced (default: 10, configurable) — loop exits with a clear message on limit hit
+- [x] **LOOP-02**: Loop continues until model produces a final text response (no tool calls) or max iterations reached
+- [x] **LOOP-03**: Each tool call result is returned to the model as a `role: "tool"` message (even on error)
+- [x] **LOOP-04**: Assistant message is appended to history before tool results on each iteration
+- [x] **LOOP-05**: Max iterations enforced (default: 10, configurable) — loop exits with a clear message on limit hit
 
 ### Local Tools
 
@@ -113,10 +113,10 @@
 | MCP-03 | Phase 1 | Complete |
 | MCP-04 | Phase 1 | Complete |
 | LOOP-01 | Phase 2 | Complete |
-| LOOP-02 | Phase 2 | Pending |
-| LOOP-03 | Phase 2 | Pending |
-| LOOP-04 | Phase 2 | Pending |
-| LOOP-05 | Phase 2 | Pending |
+| LOOP-02 | Phase 2 | Complete |
+| LOOP-03 | Phase 2 | Complete |
+| LOOP-04 | Phase 2 | Complete |
+| LOOP-05 | Phase 2 | Complete |
 | TOOL-01 | Phase 2 | Complete |
 | TOOL-02 | Phase 2 | Complete |
 | TOOL-03 | Phase 2 | Complete |
