@@ -16,7 +16,7 @@
 
 ### Ollama Agent Loop
 
-- [ ] **LOOP-01**: Agent loop posts to Ollama `/api/chat` with `stream: false`, tool definitions, and full message history
+- [x] **LOOP-01**: Agent loop posts to Ollama `/api/chat` with `stream: false`, tool definitions, and full message history
 - [ ] **LOOP-02**: Loop continues until model produces a final text response (no tool calls) or max iterations reached
 - [ ] **LOOP-03**: Each tool call result is returned to the model as a `role: "tool"` message (even on error)
 - [ ] **LOOP-04**: Assistant message is appended to history before tool results on each iteration
@@ -24,11 +24,11 @@
 
 ### Local Tools
 
-- [ ] **TOOL-01**: `read_file(path)` — reads file contents, path-safe
-- [ ] **TOOL-02**: `write_file(path, content)` — writes file, path-safe
-- [ ] **TOOL-03**: `list_dir(path)` — lists directory contents, path-safe
-- [ ] **TOOL-04**: `bash(command)` — executes shell command, restricted by allow-list by default
-- [ ] **TOOL-05**: Tool descriptions are meaningful — the model uses them to decide which tool to call
+- [x] **TOOL-01**: `read_file(path)` — reads file contents, path-safe
+- [x] **TOOL-02**: `write_file(path, content)` — writes file, path-safe
+- [x] **TOOL-03**: `list_dir(path)` — lists directory contents, path-safe
+- [x] **TOOL-04**: `bash(command)` — executes shell command, restricted by allow-list by default
+- [x] **TOOL-05**: Tool descriptions are meaningful — the model uses them to decide which tool to call
 
 ### Tool Call Parser
 
@@ -112,16 +112,16 @@
 | MCP-02 | Phase 1 | Complete |
 | MCP-03 | Phase 1 | Complete |
 | MCP-04 | Phase 1 | Complete |
-| LOOP-01 | Phase 2 | Pending |
+| LOOP-01 | Phase 2 | Complete |
 | LOOP-02 | Phase 2 | Pending |
 | LOOP-03 | Phase 2 | Pending |
 | LOOP-04 | Phase 2 | Pending |
 | LOOP-05 | Phase 2 | Pending |
-| TOOL-01 | Phase 2 | Pending |
-| TOOL-02 | Phase 2 | Pending |
-| TOOL-03 | Phase 2 | Pending |
-| TOOL-04 | Phase 2 | Pending |
-| TOOL-05 | Phase 2 | Pending |
+| TOOL-01 | Phase 2 | Complete |
+| TOOL-02 | Phase 2 | Complete |
+| TOOL-03 | Phase 2 | Complete |
+| TOOL-04 | Phase 2 | Complete |
+| TOOL-05 | Phase 2 | Complete |
 | SAFE-01 | Phase 2 | Complete |
 | SAFE-02 | Phase 2 | Complete |
 | SAFE-03 | Phase 2 | Complete |
