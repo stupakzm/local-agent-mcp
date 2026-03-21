@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: planning
-stopped_at: Completed 01-01-PLAN.md
-last_updated: "2026-03-21T13:02:17.660Z"
+status: executing
+stopped_at: Completed 02-02-PLAN.md
+last_updated: "2026-03-21T15:01:00.000Z"
 progress:
   total_phases: 4
   completed_phases: 1
-  total_plans: 1
-  completed_plans: 1
+  total_plans: 4
+  completed_plans: 3
 ---
 
 # Project State: local-agent-mcp
@@ -19,15 +19,15 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-20)
 
 **Core value:** Claude Code delegates tasks to a local Ollama model that actually executes them — closing the loop from tool call to result without any cloud API calls.
-**Current focus:** Phase 01 — mcp-server-shell (complete, ready for Phase 02)
+**Current focus:** Phase 02 — agent-loop-tools-safety
 
 ## Current Status
 
 **Milestone:** v1.0
 **Phase:** 2 of 4 (agent loop + tools + safety)
-**Status:** Ready to plan
-**Last session:** 2026-03-21T12:55:30Z
-**Stopped at:** Completed 01-01-PLAN.md
+**Status:** Executing Phase 02
+**Last session:** 2026-03-21T15:01:00Z
+**Stopped at:** Completed 02-02-PLAN.md
 
 ## Phase Overview
 
@@ -43,12 +43,20 @@ See: .planning/PROJECT.md (updated 2026-03-20)
 - Used ESLint 10 flat config (eslint.config.js) instead of legacy .eslintrc.json -- ESLint 9+ dropped legacy format
 - Locked zod to ^3.25.0 -- SDK allows v4 but project standardizes on v3
 - Added void expressions for unused stub parameters to satisfy noUnusedParameters strict check
+- Used root + path.sep prefix check to prevent /project-evil/ matching /project
+- First-token extraction via split for command allow-list prevents prefix attacks
+- Excluded src/__tests__ from tsconfig build -- vitest handles test compilation separately
+- Used native fetch for Ollama HTTP client (no npm package needed, Node 18+ built-in)
+- Tool arguments typed as Record<string, unknown> (pre-parsed by Ollama, not JSON string)
+- bash tests skipped on Windows via process.platform check
 
 ## Performance Metrics
 
 | Phase | Plan | Duration | Tasks | Files |
 |-------|------|----------|-------|-------|
 | 01 | 01 | 4min | 3 | 7 |
+| 02 | 01 | 4min | 2 | 4 |
+| 02 | 02 | 4min | 3 | 3 |
 
 ## Notes
 
@@ -58,4 +66,4 @@ See: .planning/PROJECT.md (updated 2026-03-20)
 - Run OLLAMA.md section 10 validation checklist against live Ollama before Phase 3 coding
 
 ---
-*Last updated: 2026-03-21 after completing Phase 01 Plan 01*
+*Last updated: 2026-03-21 after completing Phase 02 Plan 02*

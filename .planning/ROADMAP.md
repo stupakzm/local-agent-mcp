@@ -94,11 +94,11 @@ No pre-phase research needed. MCP SDK patterns are HIGH confidence and well-docu
 6. Environment variables like `ANTHROPIC_API_KEY` are not available to subprocess commands even when set in the parent process
 7. A deliberate infinite tool loop is stopped at max iterations with a clear "max iterations reached" message
 
-**Plans:** 3 plans
+**Plans:** 2/3 plans executed
 
 Plans:
-- [ ] 02-01-PLAN.md — Security module with path validation, command allow-list, safe env, and output truncation
-- [ ] 02-02-PLAN.md — Ollama HTTP client, tool executors, and tool tests
+- [x] 02-01-PLAN.md — Security module with path validation, command allow-list, safe env, and output truncation
+- [x] 02-02-PLAN.md — Ollama HTTP client, tool executors, and tool tests
 - [ ] 02-03-PLAN.md — Agent loop and MCP handler wiring
 
 **Research Notes:**
@@ -222,7 +222,7 @@ No pre-phase research needed. Env-var config is a standard pattern with no uncer
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. MCP Server Shell | 1/1 | Done | 2026-03-21 |
-| 2. Agent Loop + Tools + Safety | 0/3 | Planned | - |
+| 2. Agent Loop + Tools + Safety | 2/3 | In Progress|  |
 | 3. Robust Parsing Pipeline | 0/? | Not started | - |
 | 4. Configuration + Polish | 0/? | Not started | - |
 

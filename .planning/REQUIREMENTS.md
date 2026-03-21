@@ -41,13 +41,13 @@
 
 ### Safety Layer
 
-- [ ] **SAFE-01**: Path validation via `path.resolve()` + `root + path.sep` prefix check (not string prefix — prevents `/project-evil/` bypass)
-- [ ] **SAFE-02**: Command allow-list enforced with trailing-space check (prevents `gitevil` passing as `git`)
-- [ ] **SAFE-03**: Default allow-list: `git`, `ls`, `cat`, `echo`, `grep`, `find`, `mkdir`, `cp`, `mv`, `touch`, `npm`, `node`, `python` — `rm`, `curl`, `wget`, `sudo`, `ssh` excluded by default
-- [ ] **SAFE-04**: Process group killed on timeout (Unix: `kill(-pid, SIGTERM)`) — grandchildren don't survive
-- [ ] **SAFE-05**: Subprocess env inherits only an explicit allowlist (`PATH`, `HOME`, `USER`, `LANG`) — API keys not leaked
-- [ ] **SAFE-06**: Bash output capped at 1MB with truncation notice
-- [ ] **SAFE-07**: `shellMode: full` escape hatch available with a printed warning
+- [x] **SAFE-01**: Path validation via `path.resolve()` + `root + path.sep` prefix check (not string prefix — prevents `/project-evil/` bypass)
+- [x] **SAFE-02**: Command allow-list enforced with trailing-space check (prevents `gitevil` passing as `git`)
+- [x] **SAFE-03**: Default allow-list: `git`, `ls`, `cat`, `echo`, `grep`, `find`, `mkdir`, `cp`, `mv`, `touch`, `npm`, `node`, `python` — `rm`, `curl`, `wget`, `sudo`, `ssh` excluded by default
+- [x] **SAFE-04**: Process group killed on timeout (Unix: `kill(-pid, SIGTERM)`) — grandchildren don't survive
+- [x] **SAFE-05**: Subprocess env inherits only an explicit allowlist (`PATH`, `HOME`, `USER`, `LANG`) — API keys not leaked
+- [x] **SAFE-06**: Bash output capped at 1MB with truncation notice
+- [x] **SAFE-07**: `shellMode: full` escape hatch available with a printed warning
 
 ### Configuration
 
@@ -122,13 +122,13 @@
 | TOOL-03 | Phase 2 | Pending |
 | TOOL-04 | Phase 2 | Pending |
 | TOOL-05 | Phase 2 | Pending |
-| SAFE-01 | Phase 2 | Pending |
-| SAFE-02 | Phase 2 | Pending |
-| SAFE-03 | Phase 2 | Pending |
-| SAFE-04 | Phase 2 | Pending |
-| SAFE-05 | Phase 2 | Pending |
-| SAFE-06 | Phase 2 | Pending |
-| SAFE-07 | Phase 2 | Pending |
+| SAFE-01 | Phase 2 | Complete |
+| SAFE-02 | Phase 2 | Complete |
+| SAFE-03 | Phase 2 | Complete |
+| SAFE-04 | Phase 2 | Complete |
+| SAFE-05 | Phase 2 | Complete |
+| SAFE-06 | Phase 2 | Complete |
+| SAFE-07 | Phase 2 | Complete |
 | PARSE-01 | Phase 3 | Pending |
 | PARSE-02 | Phase 3 | Pending |
 | PARSE-03 | Phase 3 | Pending |
