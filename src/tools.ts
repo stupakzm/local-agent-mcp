@@ -171,17 +171,29 @@ async function bashExec(
   const env = buildSafeEnv();
 
   return new Promise<ToolResult>((resolve) => {
+    let timedOut = false;
+
     const child = execFile(
       "bash",
       ["-c", command],
       {
         cwd: workingDir,
-        timeout: timeoutMs,
         env,
         maxBuffer: MAX_OUTPUT_BYTES + 1024,
-        ...(process.platform !== "win32" ? { detached: true } : {}),
+        ...(process.platform !== "win32"
+          ? { detached: true }
+          : { timeout: timeoutMs }),
       },
       (error, stdout, stderr) => {
+        if (timedOut) {
+          const seconds = Math.round(timeoutMs / 1000);
+          resolve({
+            success: false,
+            output: `command timed out after ${seconds}s`,
+          });
+          return;
+        }
+
         if (error && "killed" in error && error.killed) {
           const seconds = Math.round(timeoutMs / 1000);
           resolve({
@@ -213,6 +225,19 @@ async function bashExec(
 
     // Process group kill on timeout (Unix only)
     if (process.platform !== "win32" && child.pid) {
+      const timer = setTimeout(() => {
+        timedOut = true;
+        try {
+          process.kill(-child.pid!, "SIGTERM");
+        } catch {
+          // Process may have already exited
+        }
+      }, timeoutMs);
+
+      child.on("close", () => {
+        clearTimeout(timer);
+      });
+
       child.on("error", () => {
         // handled in callback
       });
