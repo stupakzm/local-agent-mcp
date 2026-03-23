@@ -147,11 +147,11 @@ No pre-phase research needed. Ollama `/api/chat` API format is HIGH confidence.
 4. A `ParseFailure` result surfaces a readable error to Claude Code — not a protocol error and not silence
 5. A response where `message.tool_calls` is present but `message.content` is also non-empty is handled correctly — tool_calls path is used, content is ignored (not processed in parallel)
 
-**Plans:** 2/2 plans complete
+**Plans:** 0/2 plans executed
 
 Plans:
-- [x] 03-01-PLAN.md — Three-tier parser module with 18 test cases (TDD)
-- [x] 03-02-PLAN.md — Integration wiring: format:'json', parseToolCall in loop.ts, ParseFailure in AgentResult
+- [ ] 03-01-PLAN.md — Three-tier parser module with 14+ test cases (TDD)
+- [ ] 03-02-PLAN.md — Integration wiring: format:'json', parseToolCall in loop.ts, ParseFailure in AgentResult
 
 **Research Notes:**
 
@@ -224,7 +224,7 @@ No pre-phase research needed. Env-var config is a standard pattern with no uncer
 |-------|----------------|--------|-----------|
 | 1. MCP Server Shell | 1/1 | Done | 2026-03-21 |
 | 2. Agent Loop + Tools + Safety | 4/4 | Complete   | 2026-03-21 |
-| 3. Robust Parsing Pipeline | 2/2 | Complete | 2026-03-23 |
+| 3. Robust Parsing Pipeline | 0/2 | Planned    |  |
 | 4. Configuration + Polish | 0/? | Not started | - |
 
 ---
@@ -254,12 +254,12 @@ No pre-phase research needed. Env-var config is a standard pattern with no uncer
 | SAFE-05 | Phase 2 | Pending |
 | SAFE-06 | Phase 2 | Pending |
 | SAFE-07 | Phase 2 | Pending |
-| PARSE-01 | Phase 3 | Complete |
-| PARSE-02 | Phase 3 | Complete |
-| PARSE-03 | Phase 3 | Complete |
-| PARSE-04 | Phase 3 | Complete |
-| PARSE-05 | Phase 3 | Complete |
-| PARSE-06 | Phase 3 | Complete |
+| PARSE-01 | Phase 3 | Pending |
+| PARSE-02 | Phase 3 | Pending |
+| PARSE-03 | Phase 3 | Pending |
+| PARSE-04 | Phase 3 | Pending |
+| PARSE-05 | Phase 3 | Pending |
+| PARSE-06 | Phase 3 | Pending |
 | CONF-01 | Phase 4 | Pending |
 | CONF-02 | Phase 4 | Pending |
 | CONF-03 | Phase 4 | Pending |

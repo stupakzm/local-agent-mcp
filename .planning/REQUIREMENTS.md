@@ -32,12 +32,12 @@
 
 ### Tool Call Parser
 
-- [ ] **PARSE-01**: Native `message.tool_calls` path used as primary (fast path, ~80% of traffic)
-- [ ] **PARSE-02**: Field name normalization handles aliases (`tool_name`/`name`/`function`, `args`/`arguments`/`params`/`kwargs`)
-- [ ] **PARSE-03**: Text extraction pipeline handles: extra prose around JSON, markdown code fences, trailing commas, multiple JSON objects in response
-- [ ] **PARSE-04**: Up to 3 retries with a correction prompt that includes the specific parse error and expected format
-- [ ] **PARSE-05**: Parser returns a structured `ParseFailure` after max retries — does not throw
-- [ ] **PARSE-06**: Parser passes all 14 test cases from PARSING.md (P0–P2 failure modes)
+- [x] **PARSE-01**: Native `message.tool_calls` path used as primary (fast path, ~80% of traffic)
+- [x] **PARSE-02**: Field name normalization handles aliases (`tool_name`/`name`/`function`, `args`/`arguments`/`params`/`kwargs`)
+- [x] **PARSE-03**: Text extraction pipeline handles: extra prose around JSON, markdown code fences, trailing commas, multiple JSON objects in response
+- [x] **PARSE-04**: Up to 3 retries with a correction prompt that includes the specific parse error and expected format
+- [x] **PARSE-05**: Parser returns a structured `ParseFailure` after max retries — does not throw
+- [x] **PARSE-06**: Parser passes all 14 test cases from PARSING.md (P0–P2 failure modes)
 
 ### Safety Layer
 
@@ -129,12 +129,12 @@
 | SAFE-05 | Phase 2 | Complete |
 | SAFE-06 | Phase 2 | Complete |
 | SAFE-07 | Phase 2 | Complete |
-| PARSE-01 | Phase 3 | Pending |
-| PARSE-02 | Phase 3 | Pending |
-| PARSE-03 | Phase 3 | Pending |
-| PARSE-04 | Phase 3 | Pending |
-| PARSE-05 | Phase 3 | Pending |
-| PARSE-06 | Phase 3 | Pending |
+| PARSE-01 | Phase 3 | Complete |
+| PARSE-02 | Phase 3 | Complete |
+| PARSE-03 | Phase 3 | Complete |
+| PARSE-04 | Phase 3 | Complete |
+| PARSE-05 | Phase 3 | Complete |
+| PARSE-06 | Phase 3 | Complete |
 | CONF-01 | Phase 4 | Pending |
 | CONF-02 | Phase 4 | Pending |
 | CONF-03 | Phase 4 | Pending |
