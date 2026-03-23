@@ -5,6 +5,8 @@ import type { OllamaMessage, OllamaToolCall } from "./ollama.js";
 import { executeTool, TOOL_DEFINITIONS } from "./tools.js";
 import type { ToolResult } from "./tools.js";
 import type { ShellMode } from "./security.js";
+import { parseToolCall } from "./parser.js";
+import type { ParseFailure } from "./parser.js";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -21,64 +23,7 @@ export interface AgentResult {
   finalMessage: string;
   iterationCount: number;
   stoppedByLimit: boolean;
-}
-
-// ---------------------------------------------------------------------------
-// Fallback content-field tool call parser
-// ---------------------------------------------------------------------------
-
-/**
- * Fallback for models (e.g. qwen2.5-coder) that emit tool calls as JSON text
- * in the content field instead of the native tool_calls field.
- *
- * Accepted shapes:
- *   {"name": "...", "arguments": {...}}
- *   [{"name": "...", "arguments": {...}}, ...]
- *
- * Returns null when content is not a valid tool-call payload so the caller
- * treats it as a plain text final message.
- */
-function parseContentToolCalls(content: string): OllamaToolCall[] | null {
-  let trimmed = content.trimStart();
-
-  // Strip markdown code fence if present (e.g. ```json\n{...}\n```)
-  const fenceMatch = trimmed.match(/^```(?:json)?\s*\n?([\s\S]*?)\n?```\s*$/);
-  if (fenceMatch) {
-    trimmed = fenceMatch[1].trimStart();
-  }
-
-  if (!trimmed.startsWith("{") && !trimmed.startsWith("[")) {
-    return null;
-  }
-
-  let parsed: unknown;
-  try {
-    parsed = JSON.parse(trimmed);
-  } catch {
-    return null;
-  }
-
-  const candidates: unknown[] = Array.isArray(parsed) ? parsed : [parsed];
-  if (candidates.length === 0) return null;
-
-  const calls: OllamaToolCall[] = [];
-  for (const item of candidates) {
-    if (
-      item !== null &&
-      typeof item === "object" &&
-      typeof (item as Record<string, unknown>).name === "string" &&
-      (item as Record<string, unknown>).arguments !== null &&
-      typeof (item as Record<string, unknown>).arguments === "object" &&
-      !Array.isArray((item as Record<string, unknown>).arguments)
-    ) {
-      const entry = item as { name: string; arguments: Record<string, unknown> };
-      calls.push({ function: { name: entry.name, arguments: entry.arguments } });
-    } else {
-      return null;
-    }
-  }
-
-  return calls.length > 0 ? calls : null;
+  parseFailure?: ParseFailure;  // per D-08
 }
 
 // ---------------------------------------------------------------------------
@@ -119,6 +64,18 @@ export async function runAgentLoop(options: {
   let finalMessage = "";
   let stoppedByLimit = false;
 
+  // chatFn for parser retry loop — isolated from main conversation history (per D-03)
+  const chatFn = async (correctionMessages: OllamaMessage[]): Promise<OllamaMessage> => {
+    const response = await chatWithOllama(host, {
+      model,
+      messages: correctionMessages,
+      tools: TOOL_DEFINITIONS,
+      stream: false as const,
+      format: 'json',
+    });
+    return response.message;
+  };
+
   while (iteration < maxIterations) {
     iteration++;
 
@@ -127,6 +84,7 @@ export async function runAgentLoop(options: {
       messages,
       tools: TOOL_DEFINITIONS,
       stream: false as const,
+      format: 'json',
     });
 
     const assistantMessage = response.message;
@@ -134,7 +92,34 @@ export async function runAgentLoop(options: {
     // CRITICAL (LOOP-04): Append assistant message BEFORE processing tool results
     messages.push(assistantMessage);
 
-    const toolCalls = assistantMessage.tool_calls ?? parseContentToolCalls(assistantMessage.content);
+    // Tier 1: native tool_calls (PARSE-01 fast path)
+    let toolCalls: OllamaToolCall[] | null = assistantMessage.tool_calls ?? null;
+
+    // Tier 2+3: text extraction + retry (only if no native tool_calls)
+    if (!toolCalls || toolCalls.length === 0) {
+      const parseResult = await parseToolCall(assistantMessage.content, chatFn);
+
+      // Check for ParseFailure (per D-07)
+      if (parseResult && 'reason' in parseResult) {
+        const failure = parseResult as ParseFailure;
+
+        // Per D-07: append synthetic tool result message to history before breaking
+        messages.push({
+          role: 'tool' as const,
+          content: `[parse failed: ${failure.reason}]`,
+        });
+
+        return {
+          steps,
+          finalMessage: "",
+          iterationCount: iteration,
+          stoppedByLimit: false,
+          parseFailure: failure,
+        };
+      }
+
+      toolCalls = parseResult as OllamaToolCall[] | null;
+    }
 
     // If no tool calls, the model is done
     if (!toolCalls || toolCalls.length === 0) {

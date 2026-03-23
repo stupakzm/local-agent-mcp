@@ -74,6 +74,12 @@ server.registerTool(
         logLines.push(`[stopped: max iterations reached (${MAX_ITERATIONS})]`);
       }
 
+      if (result.parseFailure) {
+        logLines.push(
+          `[parse failed after ${result.parseFailure.attemptCount} attempts: ${result.parseFailure.reason}]`
+        );
+      }
+
       const executionLog = logLines.length > 0
         ? logLines.join("\n") + "\n\n"
         : "";
