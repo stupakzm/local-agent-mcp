@@ -1,7 +1,7 @@
 // Agent loop — orchestrates Ollama calls and tool execution.
 
 import { chatWithOllama } from "./ollama.js";
-import type { OllamaMessage } from "./ollama.js";
+import type { OllamaMessage, OllamaToolCall } from "./ollama.js";
 import { executeTool, TOOL_DEFINITIONS } from "./tools.js";
 import type { ToolResult } from "./tools.js";
 import type { ShellMode } from "./security.js";
@@ -21,6 +21,64 @@ export interface AgentResult {
   finalMessage: string;
   iterationCount: number;
   stoppedByLimit: boolean;
+}
+
+// ---------------------------------------------------------------------------
+// Fallback content-field tool call parser
+// ---------------------------------------------------------------------------
+
+/**
+ * Fallback for models (e.g. qwen2.5-coder) that emit tool calls as JSON text
+ * in the content field instead of the native tool_calls field.
+ *
+ * Accepted shapes:
+ *   {"name": "...", "arguments": {...}}
+ *   [{"name": "...", "arguments": {...}}, ...]
+ *
+ * Returns null when content is not a valid tool-call payload so the caller
+ * treats it as a plain text final message.
+ */
+function parseContentToolCalls(content: string): OllamaToolCall[] | null {
+  let trimmed = content.trimStart();
+
+  // Strip markdown code fence if present (e.g. ```json\n{...}\n```)
+  const fenceMatch = trimmed.match(/^```(?:json)?\s*\n?([\s\S]*?)\n?```\s*$/);
+  if (fenceMatch) {
+    trimmed = fenceMatch[1].trimStart();
+  }
+
+  if (!trimmed.startsWith("{") && !trimmed.startsWith("[")) {
+    return null;
+  }
+
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(trimmed);
+  } catch {
+    return null;
+  }
+
+  const candidates: unknown[] = Array.isArray(parsed) ? parsed : [parsed];
+  if (candidates.length === 0) return null;
+
+  const calls: OllamaToolCall[] = [];
+  for (const item of candidates) {
+    if (
+      item !== null &&
+      typeof item === "object" &&
+      typeof (item as Record<string, unknown>).name === "string" &&
+      (item as Record<string, unknown>).arguments !== null &&
+      typeof (item as Record<string, unknown>).arguments === "object" &&
+      !Array.isArray((item as Record<string, unknown>).arguments)
+    ) {
+      const entry = item as { name: string; arguments: Record<string, unknown> };
+      calls.push({ function: { name: entry.name, arguments: entry.arguments } });
+    } else {
+      return null;
+    }
+  }
+
+  return calls.length > 0 ? calls : null;
 }
 
 // ---------------------------------------------------------------------------
@@ -76,7 +134,7 @@ export async function runAgentLoop(options: {
     // CRITICAL (LOOP-04): Append assistant message BEFORE processing tool results
     messages.push(assistantMessage);
 
-    const toolCalls = assistantMessage.tool_calls;
+    const toolCalls = assistantMessage.tool_calls ?? parseContentToolCalls(assistantMessage.content);
 
     // If no tool calls, the model is done
     if (!toolCalls || toolCalls.length === 0) {
