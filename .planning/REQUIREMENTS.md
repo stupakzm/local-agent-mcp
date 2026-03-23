@@ -51,13 +51,13 @@
 
 ### Configuration
 
-- [ ] **CONF-01**: `OLLAMA_HOST` (default: `http://localhost:11434`)
-- [ ] **CONF-02**: `AGENT_MODEL` (default: `qwen2.5-coder:7b`)
-- [ ] **CONF-03**: `AGENT_WORKING_DIR` (default: `process.cwd()`)
-- [ ] **CONF-04**: `AGENT_MAX_ITERATIONS` (default: `10`)
-- [ ] **CONF-05**: `AGENT_TIMEOUT_SECONDS` (default: `30`)
-- [ ] **CONF-06**: `AGENT_SHELL_MODE` (`restricted` | `full` | `none`, default: `restricted`)
-- [ ] **CONF-07**: `AGENT_ALLOWED_COMMANDS` (comma-separated additions to default allow-list)
+- [x] **CONF-01**: `OLLAMA_HOST` (default: `http://localhost:11434`)
+- [x] **CONF-02**: `AGENT_MODEL` (default: `qwen2.5-coder:7b`)
+- [x] **CONF-03**: `AGENT_WORKING_DIR` (default: `process.cwd()`)
+- [x] **CONF-04**: `AGENT_MAX_ITERATIONS` (default: `10`)
+- [x] **CONF-05**: `AGENT_TIMEOUT_SECONDS` (default: `30`)
+- [x] **CONF-06**: `AGENT_SHELL_MODE` (`restricted` | `full` | `none`, default: `restricted`)
+- [x] **CONF-07**: `AGENT_ALLOWED_COMMANDS` (comma-separated additions to default allow-list)
 
 ### Distribution / Open Source
 
@@ -135,13 +135,13 @@
 | PARSE-04 | Phase 3 | Complete |
 | PARSE-05 | Phase 3 | Complete |
 | PARSE-06 | Phase 3 | Complete |
-| CONF-01 | Phase 4 | Pending |
-| CONF-02 | Phase 4 | Pending |
-| CONF-03 | Phase 4 | Pending |
-| CONF-04 | Phase 4 | Pending |
-| CONF-05 | Phase 4 | Pending |
-| CONF-06 | Phase 4 | Pending |
-| CONF-07 | Phase 4 | Pending |
+| CONF-01 | Phase 4 | Complete |
+| CONF-02 | Phase 4 | Complete |
+| CONF-03 | Phase 4 | Complete |
+| CONF-04 | Phase 4 | Complete |
+| CONF-05 | Phase 4 | Complete |
+| CONF-06 | Phase 4 | Complete |
+| CONF-07 | Phase 4 | Complete |
 | DIST-01 | Phase 4 | Pending |
 | DIST-02 | Phase 4 | Pending |
 | DIST-03 | Phase 4 | Pending |

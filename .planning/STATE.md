@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: planning
-stopped_at: Completed 03-01-PLAN.md
-last_updated: "2026-03-23T21:19:02.630Z"
+status: executing
+stopped_at: Completed 04-01-PLAN.md
+last_updated: "2026-03-23T22:02:00Z"
 progress:
   total_phases: 4
   completed_phases: 3
-  total_plans: 7
-  completed_plans: 7
+  total_plans: 9
+  completed_plans: 8
 ---
 
 # Project State: local-agent-mcp
@@ -19,15 +19,15 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-20)
 
 **Core value:** Claude Code delegates tasks to a local Ollama model that actually executes them — closing the loop from tool call to result without any cloud API calls.
-**Current focus:** Phase 03 — robust-parsing-pipeline
+**Current focus:** Phase 04 — configuration-polish
 
 ## Current Status
 
 **Milestone:** v1.0
 **Phase:** 4 of 4 (configuration + polish)
-**Status:** Ready to plan
-**Last session:** 2026-03-23T21:09:26.559Z
-**Stopped at:** Completed 03-01-PLAN.md
+**Status:** Executing Phase 04
+**Last session:** 2026-03-23T22:02:00Z
+**Stopped at:** Completed 04-01-PLAN.md
 
 ## Phase Overview
 
@@ -55,6 +55,9 @@ See: .planning/PROJECT.md (updated 2026-03-20)
 - [Phase 02]: Windows retains built-in timeout via conditional spread — only direct child kill needed there
 - [Phase 03]: write_file checked before read_file in TOOL_SIGNATURES — more specific (2 required params vs 1), prevents false matches
 - [Phase 03]: Single-quote replacement in lenientRepair only when NO double quotes present — prevents corruption of values with apostrophes
+- [Phase 04]: ConfigError class thrown (not process.exit) for testability — index.ts catches and exits
+- [Phase 04]: parsePositiveInt helper centralizes numeric env var validation (rejects zero, negative, non-integer)
+- [Phase 04]: AGENT_ALLOWED_COMMANDS merges with defaults (does not replace)
 
 ## Performance Metrics
 
@@ -66,6 +69,7 @@ See: .planning/PROJECT.md (updated 2026-03-20)
 | Phase 02 P03 | 3min | 2 tasks | 2 files |
 | Phase 02 P04 | 2min | 2 tasks | 2 files |
 | Phase 03 P01 | 2min | 1 tasks | 2 files |
+| 04 | 01 | 3min | 2 | 3 |
 
 ## Notes
 

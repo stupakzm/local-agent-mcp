@@ -208,7 +208,7 @@ Context window note: If a long tool chain fills the model's `num_ctx`, the messa
 **Plans:** 2 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — Config module (TDD) + index.ts wiring for all 7 env vars
+- [x] 04-01-PLAN.md — Config module (TDD) + index.ts wiring for all 7 env vars
 - [ ] 04-02-PLAN.md — README, .mcp.json verification, and distribution docs
 
 **Research Notes:**
@@ -226,7 +226,7 @@ No pre-phase research needed. Env-var config is a standard pattern with no uncer
 | 1. MCP Server Shell | 1/1 | Done | 2026-03-21 |
 | 2. Agent Loop + Tools + Safety | 4/4 | Complete   | 2026-03-21 |
 | 3. Robust Parsing Pipeline | 0/2 | Planned    |  |
-| 4. Configuration + Polish | 0/2 | Planned | - |
+| 4. Configuration + Polish | 1/2 | In Progress | - |
 
 ---
 
