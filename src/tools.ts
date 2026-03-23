@@ -3,14 +3,13 @@
 
 import fs from "node:fs/promises";
 import nodePath from "node:path";
-import { execFile } from "node:child_process";
+import { spawn } from "node:child_process";
 import type { OllamaToolDefinition } from "./ollama.js";
 import {
   assertPathSafe,
   assertCommandAllowed,
   buildSafeEnv,
   truncateOutput,
-  MAX_OUTPUT_BYTES,
   type ShellMode,
 } from "./security.js";
 
@@ -172,76 +171,63 @@ async function bashExec(
 
   return new Promise<ToolResult>((resolve) => {
     let timedOut = false;
+    let stdout = "";
+    let stderr = "";
 
-    const child = execFile(
-      "bash",
-      ["-c", command],
-      {
-        cwd: workingDir,
-        env,
-        maxBuffer: MAX_OUTPUT_BYTES + 1024,
-        ...(process.platform !== "win32"
-          ? { detached: true }
-          : { timeout: timeoutMs }),
-      },
-      (error, stdout, stderr) => {
-        if (timedOut) {
-          const seconds = Math.round(timeoutMs / 1000);
-          resolve({
-            success: false,
-            output: `command timed out after ${seconds}s`,
-          });
-          return;
-        }
+    const isUnix = process.platform !== "win32";
 
-        if (error && "killed" in error && error.killed) {
-          const seconds = Math.round(timeoutMs / 1000);
-          resolve({
-            success: false,
-            output: `command timed out after ${seconds}s`,
-          });
-          return;
-        }
+    const child = spawn("bash", ["-c", command], {
+      cwd: workingDir,
+      env,
+      ...(isUnix ? { detached: true } : {}),
+    });
 
-        let output = stdout + stderr;
+    child.stdout.on("data", (chunk: Buffer) => {
+      stdout += chunk.toString();
+    });
 
-        if (error && !stdout && !stderr) {
-          resolve({ success: false, output: error.message });
-          return;
-        }
+    child.stderr.on("data", (chunk: Buffer) => {
+      stderr += chunk.toString();
+    });
 
-        output = truncateOutput(output);
+    child.on("error", () => {
+      // handled in close
+    });
 
-        if (shellMode === "full") {
-          output += "\n[shell mode: full — no restrictions applied]";
-        }
+    child.on("close", (code) => {
+      clearTimeout(timer);
 
+      if (timedOut) {
+        const seconds = Math.round(timeoutMs / 1000);
         resolve({
-          success: !error,
-          output,
+          success: false,
+          output: `command timed out after ${seconds}s`,
         });
-      },
-    );
+        return;
+      }
 
-    // Process group kill on timeout (Unix only)
-    if (process.platform !== "win32" && child.pid) {
-      const timer = setTimeout(() => {
-        timedOut = true;
+      let output = truncateOutput(stdout + stderr);
+
+      if (shellMode === "full") {
+        output += "\n[shell mode: full — no restrictions applied]";
+      }
+
+      resolve({ success: code === 0, output });
+    });
+
+    // Timeout: kill process group on Unix, direct kill on Windows
+    const timer = setTimeout(() => {
+      timedOut = true;
+      if (isUnix && child.pid) {
         try {
-          process.kill(-child.pid!, "SIGTERM");
+          process.kill(-child.pid, "SIGTERM");
         } catch {
-          // Process may have already exited
+          child.kill("SIGTERM");
         }
-      }, timeoutMs);
-
-      child.on("close", () => {
-        clearTimeout(timer);
-      });
-
-      child.on("error", () => {
-        // handled in callback
-      });
-    }
+      } else {
+        child.kill("SIGTERM");
+      }
+    }, timeoutMs);
   });
 }
 
