@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Completed 02-04-PLAN.md
-last_updated: "2026-03-21T15:31:27.906Z"
+stopped_at: Completed 03-02-PLAN.md
+last_updated: "2026-03-23T22:13:00.000Z"
 progress:
   total_phases: 4
   completed_phases: 2
-  total_plans: 5
-  completed_plans: 5
+  total_plans: 7
+  completed_plans: 7
 ---
 
 # Project State: local-agent-mcp
@@ -19,23 +19,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-20)
 
 **Core value:** Claude Code delegates tasks to a local Ollama model that actually executes them — closing the loop from tool call to result without any cloud API calls.
-**Current focus:** Phase 02 — agent-loop-tools-safety
+**Current focus:** Phase 03 — robust-parsing-pipeline
 
 ## Current Status
 
 **Milestone:** v1.0
-**Phase:** 2 of 4 (agent loop + tools + safety)
-**Status:** Executing Phase 02
-**Last session:** 2026-03-21T15:31:27.902Z
-**Stopped at:** Completed 02-04-PLAN.md
+**Phase:** 3 of 4 (robust parsing pipeline)
+**Status:** Executing Phase 03
+**Last session:** 2026-03-23T22:13:00.000Z
+**Stopped at:** Completed 03-02-PLAN.md
 
 ## Phase Overview
 
 | Phase | Name | Status | Requirements |
 |-------|------|--------|--------------|
 | 1 | MCP Server Shell | DONE | MCP-01–04 |
-| 2 | Agent Loop + Tools + Safety | ○ Pending | LOOP-01–05, TOOL-01–05, SAFE-01–07 |
-| 3 | Robust Parsing Pipeline | ○ Pending | PARSE-01–06 |
+| 2 | Agent Loop + Tools + Safety | DONE | LOOP-01–05, TOOL-01–05, SAFE-01–07 |
+| 3 | Robust Parsing Pipeline | In Progress (2/2 plans done) | PARSE-01–06 |
 | 4 | Configuration + Polish | ○ Pending | CONF-01–07, DIST-01–04 |
 
 ## Decisions
@@ -53,6 +53,11 @@ See: .planning/PROJECT.md (updated 2026-03-20)
 - [Phase 02]: Execution log truncates string args >80 chars and summarizes output >200 chars as line counts
 - [Phase 02]: Manual setTimeout + process.kill(-child.pid, SIGTERM) replaces execFile built-in timeout on Unix to kill entire process group including grandchildren
 - [Phase 02]: Windows retains built-in timeout via conditional spread — only direct child kill needed there
+- [Phase 03]: write_file checked before read_file in TOOL_SIGNATURES — more specific (2 required params vs 1), prevents read_file matching write_file calls
+- [Phase 03]: Single-quote replacement only when NO double quotes present — prevents corruption of values with apostrophes
+- [Phase 03]: JS comment stripping applied before trailing-comma removal in lenientRepair — comments may contain commas
+- [Phase 03]: chatFn closure builds its own request with correctionMessages — never touches main conversation history (per D-03)
+- [Phase 03]: format:'json' added to all chatWithOllama calls in loop.ts for more reliable structured output
 
 ## Performance Metrics
 
@@ -61,8 +66,10 @@ See: .planning/PROJECT.md (updated 2026-03-20)
 | 01 | 01 | 4min | 3 | 7 |
 | 02 | 01 | 4min | 2 | 4 |
 | 02 | 02 | 4min | 3 | 3 |
-| Phase 02 P03 | 3min | 2 tasks | 2 files |
-| Phase 02 P04 | 2min | 2 tasks | 2 files |
+| 02 | 03 | 3min | 2 | 2 |
+| 02 | 04 | 2min | 2 | 2 |
+| 03 | 01 | 2min | 1 | 2 |
+| 03 | 02 | 3min | 2 | 3 |
 
 ## Notes
 
@@ -72,4 +79,4 @@ See: .planning/PROJECT.md (updated 2026-03-20)
 - Run OLLAMA.md section 10 validation checklist against live Ollama before Phase 3 coding
 
 ---
-*Last updated: 2026-03-21 after completing Phase 02 Plan 02*
+*Last updated: 2026-03-23 after completing Phase 03 Plan 02*
