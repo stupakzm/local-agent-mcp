@@ -2,18 +2,23 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { runAgentLoop } from "./loop.js";
-import { DEFAULT_ALLOWED_COMMANDS } from "./security.js";
-import type { ShellMode } from "./security.js";
+import { loadConfig, ConfigError } from "./config.js";
+import type { AppConfig } from "./config.js";
 
 // ---------------------------------------------------------------------------
-// Hardcoded config (Phase 4 will replace with env vars)
+// Configuration (fail-fast on invalid env vars)
 // ---------------------------------------------------------------------------
 
-const OLLAMA_HOST = "http://localhost:11434";
-const DEFAULT_MODEL = "qwen2.5-coder:7b";
-const MAX_ITERATIONS = 10;
-const TIMEOUT_MS = 30_000;
-const SHELL_MODE: ShellMode = "restricted";
+let config: AppConfig;
+try {
+  config = loadConfig();
+} catch (err) {
+  if (err instanceof ConfigError) {
+    console.error(err.message);
+    process.exit(1);
+  }
+  throw err;
+}
 
 // ---------------------------------------------------------------------------
 // MCP Server
@@ -31,20 +36,20 @@ server.registerTool(
       "Run a task using a local Ollama model. The agent can read files, write files, list directories, and execute shell commands to complete the task.",
     inputSchema: {
       prompt: z.string().describe("The task or question for the local agent"),
-      model: z.string().optional().describe("Ollama model name (default: qwen2.5-coder:7b)"),
+      model: z.string().optional().describe(`Ollama model name (default: ${config.model})`),
     },
   },
   async ({ prompt, model }) => {
     try {
       const result = await runAgentLoop({
         prompt,
-        model: model ?? DEFAULT_MODEL,
-        host: OLLAMA_HOST,
-        workingDir: process.cwd(),
-        maxIterations: MAX_ITERATIONS,
-        shellMode: SHELL_MODE,
-        allowedCommands: DEFAULT_ALLOWED_COMMANDS,
-        timeoutMs: TIMEOUT_MS,
+        model: model ?? config.model,
+        host: config.ollamaHost,
+        workingDir: config.workingDir,
+        maxIterations: config.maxIterations,
+        shellMode: config.shellMode,
+        allowedCommands: config.allowedCommands,
+        timeoutMs: config.timeoutMs,
       });
 
       // Format execution log
@@ -71,7 +76,7 @@ server.registerTool(
       }
 
       if (result.stoppedByLimit) {
-        logLines.push(`[stopped: max iterations reached (${MAX_ITERATIONS})]`);
+        logLines.push(`[stopped: max iterations reached (${config.maxIterations})]`);
       }
 
       if (result.parseFailure) {
@@ -106,7 +111,7 @@ server.registerTool(
 async function main(): Promise<void> {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error(`local-agent-mcp running on stdio | working dir: ${process.cwd()} | shell mode: ${SHELL_MODE}`);
+  console.error(`local-agent-mcp | dir: ${config.workingDir} | model: ${config.model} | shell: ${config.shellMode} | host: ${config.ollamaHost}`);
 }
 
 main().catch((err: unknown) => {
