@@ -209,7 +209,7 @@ Context window note: If a long tool chain fills the model's `num_ctx`, the messa
 
 Plans:
 - [x] 04-01-PLAN.md — Config module (TDD) + index.ts wiring for all 7 env vars
-- [ ] 04-02-PLAN.md — README, .mcp.json verification, and distribution docs
+- [x] 04-02-PLAN.md — README, .mcp.json verification, and distribution docs
 
 **Research Notes:**
 

@@ -61,10 +61,10 @@
 
 ### Distribution / Open Source
 
-- [ ] **DIST-01**: README covers: what it is, prerequisites (Ollama, Node.js), installation, Claude Code registration, configuration reference, supported models
-- [ ] **DIST-02**: `.mcp.json` committed to repo for zero-config Claude Code registration
-- [ ] **DIST-03**: Windows documented as not supported for bash execution (Mac/Linux only)
-- [ ] **DIST-04**: Model upgrade path documented (7b default → 14b/32b via `AGENT_MODEL`)
+- [x] **DIST-01**: README covers: what it is, prerequisites (Ollama, Node.js), installation, Claude Code registration, configuration reference, supported models
+- [x] **DIST-02**: `.mcp.json` committed to repo for zero-config Claude Code registration
+- [x] **DIST-03**: Windows documented as not supported for bash execution (Mac/Linux only)
+- [x] **DIST-04**: Model upgrade path documented (7b default → 14b/32b via `AGENT_MODEL`)
 
 ---
 
@@ -142,10 +142,10 @@
 | CONF-05 | Phase 4 | Complete |
 | CONF-06 | Phase 4 | Complete |
 | CONF-07 | Phase 4 | Complete |
-| DIST-01 | Phase 4 | Pending |
-| DIST-02 | Phase 4 | Pending |
-| DIST-03 | Phase 4 | Pending |
-| DIST-04 | Phase 4 | Pending |
+| DIST-01 | Phase 4 | Complete |
+| DIST-02 | Phase 4 | Complete |
+| DIST-03 | Phase 4 | Complete |
+| DIST-04 | Phase 4 | Complete |
 
 **Coverage:**
 - v1 requirements: 35 total
