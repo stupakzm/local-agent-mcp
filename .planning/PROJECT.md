@@ -15,14 +15,16 @@ Claude Code delegates tasks to a local Ollama model that actually executes them 
 - [x] MCP server exposes `run_local_agent(prompt, model)` tool to Claude Code — *Validated in Phase 1: MCP Server Shell*
 - [x] Easy Claude Code MCP registration (`.mcp.json` zero-config) — *Validated in Phase 1: MCP Server Shell*
 
+### Validated
+
+- [x] Ollama tool loop: call API → parse tool calls → execute → feed back → repeat until done — *Validated in Phase 2: Agent Loop + Tools + Safety*
+- [x] Local tools implemented: read_file, write_file, bash, list_dir — *Validated in Phase 2: Agent Loop + Tools + Safety*
+- [x] Robust tool call parsing: best-effort JSON extraction with multiple fallback strategies — *Validated in Phase 3: Robust Parsing Pipeline*
+- [x] Retry logic on malformed model output — *Validated in Phase 3: Robust Parsing Pipeline*
+- [x] Safety layer: path restrictions, bash command allow-list, configurable sandboxing — *Validated in Phase 2: Agent Loop + Tools + Safety*
+
 ### Active
 
-- [ ] Ollama tool loop: call API → parse tool calls → execute → feed back → repeat until done
-- [ ] Ollama tool loop: call API → parse tool calls → execute → feed back → repeat until done
-- [ ] Local tools implemented: read_file, write_file, bash, list_dir
-- [ ] Robust tool call parsing: best-effort JSON extraction with multiple fallback strategies
-- [ ] Retry logic on malformed model output
-- [ ] Safety layer: path restrictions, bash command allow-list, configurable sandboxing
 - [ ] Works daily-use ready with qwen2.5-coder, llama3.1, and mistral
 - [ ] Clear README installation guide
 - [ ] Open-source quality: README, setup UX, installation guide
@@ -36,7 +38,7 @@ Claude Code delegates tasks to a local Ollama model that actually executes them 
 
 ## Current State
 
-Phase 1 complete — MCP server shell proven. Transport layer validates end-to-end: `npm run build` compiles, server starts on stdio, `run_local_agent` stub returns correct response, `.mcp.json` registered. Phase 2 (agent loop) is next.
+Phase 3 complete — fault-tolerant parsing pipeline operational. Six-strategy text extraction, field normalization, tool name inference, 3-retry correction loop with isolated `chatFn`, and structured `ParseFailure` return. 18 parser test cases pass. Phase 4 (configuration + polish) is next.
 
 ## Context
 
@@ -80,4 +82,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-21 after Phase 1 completion*
+*Last updated: 2026-03-23 after Phase 3 completion*
