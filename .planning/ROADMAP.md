@@ -134,7 +134,7 @@ No pre-phase research needed. Ollama `/api/chat` API format is HIGH confidence.
    - Tool name: `name` / `tool_name` / `function` / `action` / `tool`
    - Parameters: `parameters` / `arguments` / `args` / `params` / `input` / `kwargs`
 3. `ParseFailure` return type with fields: `reason`, `rawContent`, `attemptCount`, `lastError` — structured so the loop can surface a useful message to Claude
-4. Parser test suite: 14 test cases covering PARSING.md P0–P2 failure modes:
+4. Parser test suite: 14 test cases covering PARSING.md P0-P2 failure modes:
    - P0 (normal-use failures): extra prose, markdown code fences, trailing commas, field name aliases, double-stringified parameters, multiple JSON objects in one response
    - P1 (model-specific): single quotes, unquoted keys, parameters hoisted to top level, positional array parameters, JS comments in JSON
    - P2 (unrecoverable): truncated JSON, completely unparseable output, missing required parameters
@@ -147,10 +147,11 @@ No pre-phase research needed. Ollama `/api/chat` API format is HIGH confidence.
 4. A `ParseFailure` result surfaces a readable error to Claude Code — not a protocol error and not silence
 5. A response where `message.tool_calls` is present but `message.content` is also non-empty is handled correctly — tool_calls path is used, content is ignored (not processed in parallel)
 
-**Plans:** 1 plan
+**Plans:** 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Scaffold project and implement MCP server with stub run_local_agent tool
+- [ ] 03-01-PLAN.md — Three-tier parser module with 14+ test cases (TDD)
+- [ ] 03-02-PLAN.md — Integration wiring: format:'json', parseToolCall in loop.ts, ParseFailure in AgentResult
 
 **Research Notes:**
 
@@ -223,7 +224,7 @@ No pre-phase research needed. Env-var config is a standard pattern with no uncer
 |-------|----------------|--------|-----------|
 | 1. MCP Server Shell | 1/1 | Done | 2026-03-21 |
 | 2. Agent Loop + Tools + Safety | 4/4 | Complete   | 2026-03-21 |
-| 3. Robust Parsing Pipeline | 0/? | Not started | - |
+| 3. Robust Parsing Pipeline | 0/2 | Planning complete | - |
 | 4. Configuration + Polish | 0/? | Not started | - |
 
 ---
@@ -276,4 +277,4 @@ No pre-phase research needed. Env-var config is a standard pattern with no uncer
 ---
 
 *Roadmap created: 2026-03-20*
-*Last updated: 2026-03-21 after Phase 2 planning*
+*Last updated: 2026-03-23 after Phase 3 planning*
