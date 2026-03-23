@@ -31,6 +31,7 @@ export interface OllamaChatRequest {
   messages: OllamaMessage[];
   tools?: OllamaToolDefinition[];
   stream: false;
+  format?: 'json';
 }
 
 export interface OllamaChatResponse {
