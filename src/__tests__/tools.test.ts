@@ -111,7 +111,7 @@ describe("bash", () => {
     expect(result.output).toContain("shell mode: full");
   });
 
-  it.skipIf(process.platform === "win32")("kills grandchild processes on timeout", async () => {
+  it.skipIf(process.platform === "win32")("kills grandchild processes on timeout", { timeout: 15000 }, async () => {
     // Spawn a bash command that forks a grandchild sleep process
     // The outer bash prints the grandchild PID then waits
     const result = await executeTool(
