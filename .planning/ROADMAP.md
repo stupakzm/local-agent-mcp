@@ -12,7 +12,7 @@
 - [x] **Phase 1: MCP Server Shell** - Working MCP server registered with Claude Code, stub tool proves the transport layer
 - [x] **Phase 2: Agent Loop + Tools + Safety** - Full agentic tool loop executing real file and shell operations safely (completed 2026-03-21)
 - [ ] **Phase 3: Robust Parsing Pipeline** - Fault-tolerant parser handles all documented model output failure modes
-- [ ] **Phase 4: Configuration + Polish** - Env-var config, README, and distribution artifacts make the tool usable by others
+- [x] **Phase 4: Configuration + Polish** - Env-var config, README, and distribution artifacts make the tool usable by others (completed 2026-03-24)
 
 ---
 
@@ -205,12 +205,12 @@ Context window note: If a long tool chain fills the model's `num_ctx`, the messa
 4. Setting `AGENT_ALLOWED_COMMANDS=rm,curl` adds those commands to the allow-list and the agent can execute them
 5. The README's Claude Code registration section can be followed literally — the config snippet works without modification on Mac and Linux
 
-**Plans:** 3 plans
+**Plans:** 3/3 plans complete
 
 Plans:
 - [x] 04-01-PLAN.md — Config module (TDD) + index.ts wiring for all 7 env vars
 - [x] 04-02-PLAN.md — README, .mcp.json verification, and distribution docs
-- [ ] 04-03-PLAN.md — Gap closure: fix lint errors and test timeout in pre-phase-4 test files
+- [x] 04-03-PLAN.md — Gap closure: fix lint errors and test timeout in pre-phase-4 test files
 
 **Research Notes:**
 
@@ -227,7 +227,7 @@ No pre-phase research needed. Env-var config is a standard pattern with no uncer
 | 1. MCP Server Shell | 1/1 | Done | 2026-03-21 |
 | 2. Agent Loop + Tools + Safety | 4/4 | Complete   | 2026-03-21 |
 | 3. Robust Parsing Pipeline | 0/2 | Planned    |  |
-| 4. Configuration + Polish | 2/3 | In Progress | - |
+| 4. Configuration + Polish | 3/3 | Complete   | 2026-03-24 |
 
 ---
 
