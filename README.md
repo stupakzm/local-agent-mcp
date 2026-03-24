@@ -12,13 +12,11 @@ An MCP server that lets Claude Code delegate tasks to a local Ollama model. The 
 ## Installation
 
 ```bash
-git clone https://github.com/USER/local-agent-mcp.git
+git clone https://github.com/stupakzm/local-agent-mcp.git
 cd local-agent-mcp
 npm install
 npm run build
 ```
-
-Replace `USER` with the actual GitHub username or organization.
 
 ## Claude Code Registration
 
@@ -43,6 +41,33 @@ Add to your Claude Code MCP settings:
 ```
 
 The `env` block is optional — see [Configuration](#configuration) for all available settings.
+
+## Usage
+
+Once registered, Claude Code exposes a `run_local_agent` tool. Ask Claude to use it with a natural language prompt — the local agent handles the rest.
+
+**Basic example — summarize a file:**
+
+> Use the local_agent tool to read `src/index.ts` and give me a one-paragraph summary of what it does.
+
+The agent reads the file using its `read_file` tool and returns a summary — no cloud API calls involved.
+
+**Multi-step example — find and explain:**
+
+> Use the local_agent tool to find all TypeScript files in `src/` and explain the purpose of each one.
+
+The agent lists the directory, reads each file, and produces the explanation in a single run.
+
+**Code task example — run tests and report:**
+
+> Use the local_agent tool to run `npm test` and summarize which tests passed and which failed.
+
+The agent executes the command (requires `AGENT_SHELL_MODE=restricted` or `full`) and returns the output.
+
+**Tips:**
+- Be specific about paths — the agent works relative to `AGENT_WORKING_DIR` (defaults to the directory the server was started in)
+- Keep tasks focused — the agent stops after `AGENT_MAX_ITERATIONS` tool calls (default 10)
+- For long tasks, increase `AGENT_MAX_ITERATIONS` in your MCP config `env` block
 
 ## Configuration
 
