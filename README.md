@@ -124,6 +124,23 @@ To upgrade: set `AGENT_MODEL=qwen2.5-coder:14b` (or `32b`) in your MCP config `e
 ollama pull qwen2.5-coder:14b
 ```
 
+## Claude Code Integration (CLAUDE.md)
+
+This repo includes a `CLAUDE.md` file that instructs Claude Code and any subagents (including GSD executors) when and how to delegate tasks to the local agent automatically.
+
+**What it configures:**
+
+- Which task types go to the local model (file edits, test additions, lint fixes, command runs) vs stay with Claude (planning, orchestration, verification)
+- Prompt templates that prevent the local model from looping — bounded, explicit, single-task
+- Model selection per task complexity (7b → 14b → 32b)
+- Efficiency rules: one task per call, explicit file paths, no open-ended exploration
+
+**If you use GSD:** executor subagents read `CLAUDE.md` and will follow delegation rules during phase execution automatically.
+
+**If you use Claude Code directly:** Claude reads `CLAUDE.md` at session start and will offer to delegate mechanical coding tasks to the local agent.
+
+You can edit `CLAUDE.md` to add project-specific rules or adjust which tasks get delegated.
+
 ## Troubleshooting
 
 **"Connection refused" or "ECONNREFUSED"**
