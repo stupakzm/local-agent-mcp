@@ -205,11 +205,12 @@ Context window note: If a long tool chain fills the model's `num_ctx`, the messa
 4. Setting `AGENT_ALLOWED_COMMANDS=rm,curl` adds those commands to the allow-list and the agent can execute them
 5. The README's Claude Code registration section can be followed literally — the config snippet works without modification on Mac and Linux
 
-**Plans:** 2 plans
+**Plans:** 3 plans
 
 Plans:
 - [x] 04-01-PLAN.md — Config module (TDD) + index.ts wiring for all 7 env vars
 - [x] 04-02-PLAN.md — README, .mcp.json verification, and distribution docs
+- [ ] 04-03-PLAN.md — Gap closure: fix lint errors and test timeout in pre-phase-4 test files
 
 **Research Notes:**
 
@@ -226,7 +227,7 @@ No pre-phase research needed. Env-var config is a standard pattern with no uncer
 | 1. MCP Server Shell | 1/1 | Done | 2026-03-21 |
 | 2. Agent Loop + Tools + Safety | 4/4 | Complete   | 2026-03-21 |
 | 3. Robust Parsing Pipeline | 0/2 | Planned    |  |
-| 4. Configuration + Polish | 1/2 | In Progress | - |
+| 4. Configuration + Polish | 2/3 | In Progress | - |
 
 ---
 
@@ -278,4 +279,4 @@ No pre-phase research needed. Env-var config is a standard pattern with no uncer
 ---
 
 *Roadmap created: 2026-03-20*
-*Last updated: 2026-03-23 after Phase 4 planning*
+*Last updated: 2026-03-24 after Phase 4 gap closure planning*
