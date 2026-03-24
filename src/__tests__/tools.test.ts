@@ -133,7 +133,7 @@ describe("bash", () => {
       // Give OS a moment to clean up
       await new Promise((r) => setTimeout(r, 200));
       // Verify grandchild is dead
-      let alive = false;
+      let alive: boolean;
       try {
         process.kill(grandchildPid, 0); // signal 0 = existence check
         alive = true;

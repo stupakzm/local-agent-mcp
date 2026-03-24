@@ -1,6 +1,6 @@
 // Parser test suite — 14+ test cases covering P0-P2 failure modes from PARSING.md section 7
 
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 import { parseToolCall } from "../parser.js";
 import type { ParseFailure, ChatFn } from "../parser.js";
 import type { OllamaMessage } from "../ollama.js";
@@ -11,6 +11,7 @@ import type { OllamaMessage } from "../ollama.js";
 
 function mockChatFn(responses: string[]): ChatFn {
   let callIndex = 0;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return async (_messages: OllamaMessage[]): Promise<OllamaMessage> => {
     const content = responses[callIndex] ?? "no more responses";
     callIndex++;
@@ -18,6 +19,7 @@ function mockChatFn(responses: string[]): ChatFn {
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const noopChatFn: ChatFn = async (_messages: OllamaMessage[]) => {
   throw new Error("chatFn should not have been called");
 };
@@ -163,7 +165,7 @@ describe("Tier 3: retry — PARSE-04", () => {
     const validJson = `{"name": "read_file", "parameters": {"path": "/src/index.ts"}}`;
     let callCount = 0;
     const trackingChatFn: ChatFn = async (
-      _messages: OllamaMessage[],
+      _messages: OllamaMessage[], // eslint-disable-line @typescript-eslint/no-unused-vars
     ): Promise<OllamaMessage> => {
       callCount++;
       // Return garbage on first 2 calls, valid JSON on 3rd
@@ -264,7 +266,7 @@ describe("P2: unrecoverable cases — triggers retry", () => {
   it("truncated JSON triggers retry (chatFn is called)", async () => {
     let called = false;
     const trackingChatFn: ChatFn = async (
-      _messages: OllamaMessage[],
+      _messages: OllamaMessage[], // eslint-disable-line @typescript-eslint/no-unused-vars
     ): Promise<OllamaMessage> => {
       called = true;
       return {
@@ -281,7 +283,7 @@ describe("P2: unrecoverable cases — triggers retry", () => {
   it("completely unparseable text triggers retry (chatFn is called)", async () => {
     let called = false;
     const trackingChatFn: ChatFn = async (
-      _messages: OllamaMessage[],
+      _messages: OllamaMessage[], // eslint-disable-line @typescript-eslint/no-unused-vars
     ): Promise<OllamaMessage> => {
       called = true;
       return {
