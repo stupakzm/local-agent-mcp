@@ -15,7 +15,7 @@ and judgment.
 | Implement a function | "Add X following the same pattern as Y" |
 | Edit a single file | Fix lint, update imports, rename, add type |
 | Write tests | Add test cases following existing suite style |
-| Run a command and report | `npm test`, `npm run lint`, `npm run build` |
+| Run a command and report | build, test, lint commands |
 | Boilerplate / scaffolding | New file from a clear template |
 | Mechanical refactor | Rename variable across one file, extract function |
 | Read + summarize | Summarize what a file does, list exports |
@@ -62,17 +62,19 @@ Use run_local_agent: "Add a filter tool to the project."
 
 ### Model Selection
 
-The local agent defaults to `AGENT_MODEL` from config (currently `qwen2.5-coder:7b`).
-Override per-call when needed:
+The local agent uses the model set in `AGENT_MODEL` (see Configuration in README).
+Override per-call by including the model name in the prompt when a task needs more power:
 
-| Task complexity | Model to request in prompt |
-|----------------|---------------------------|
-| Simple edits, lint fixes, test additions | `qwen2.5-coder:7b` (fast, default) |
-| Multi-step implementation, pattern matching | `qwen2.5-coder:14b` |
-| Complex logic, architectural refactor | `qwen2.5-coder:32b` |
+| Task complexity | Suggested model size |
+|----------------|---------------------|
+| Simple edits, lint fixes, test additions | Smaller/faster model (default) |
+| Multi-step implementation, pattern matching | Mid-size model |
+| Complex logic, architectural refactor | Largest available model |
 
 To override, include in the run_local_agent prompt:
-`"Use model qwen2.5-coder:32b for this task."`
+`"Use model [model-name] for this task."`
+
+Check available models with `ollama list`.
 
 ---
 
@@ -89,30 +91,30 @@ To override, include in the run_local_agent prompt:
 
 ### Delegation Patterns by Scenario
 
-**GSD plan task — implement a function:**
+**Implement a function:**
 ```
-Use run_local_agent: "Read src/[file].ts. Implement [function name] that [description].
+Use run_local_agent: "Read [file path]. Implement [function name] that [description].
 Follow the existing code style in that file. Do not read other files.
 The function is complete when it compiles and matches the signature: [signature]."
 ```
 
-**GSD plan task — add tests:**
+**Add tests:**
 ```
-Use run_local_agent: "Read src/__tests__/[file].test.ts. Add [N] test cases for
-[function name] covering: [case 1], [case 2], [case 3]. Follow the existing
-describe/it/expect style exactly. Do not modify test logic outside the new cases."
+Use run_local_agent: "Read [test file path]. Add [N] test cases for [function name]
+covering: [case 1], [case 2], [case 3]. Follow the existing test style exactly.
+Do not modify test logic outside the new cases."
 ```
 
 **Fix lint errors:**
 ```
-Use run_local_agent: "Read src/[file].ts. Fix all ESLint errors reported below.
+Use run_local_agent: "Read [file path]. Fix all lint errors reported below.
 Do not change any logic — only fix the lint issues.
 Errors: [paste lint output]"
 ```
 
 **Run and report:**
 ```
-Use run_local_agent: "Run `npm test` from /home/stupakzm/projects/local-agent-mcp.
+Use run_local_agent: "Run [command] from [project root path].
 Report: how many tests passed, how many failed, and the names of any failures.
 Do not attempt to fix failures."
 ```
